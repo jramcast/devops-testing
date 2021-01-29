@@ -1,4 +1,4 @@
-package com.redhat.restclient;
+package com.redhat.training.currency;
 
 public class Currency {
     private String value;

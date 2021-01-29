@@ -1,6 +1,10 @@
-package com.redhat.restclient;
+package com.redhat.training.rate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.redhat.training.currency.Currency;
+import com.redhat.training.news.News;
+import com.redhat.training.news.NewsRestClient;
+
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.inject.Inject;
@@ -12,18 +16,21 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-@Path("/exchangeRate")
+@Path("/rate")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class ExchangeResource {
 
     @Inject
     @RestClient
-    ExchangeService historyService;
+    HistoryRestClient historyService;
 
     @Inject
     @RestClient
-    NewsService newsService;
+    NewsRestClient newsService;
+
+    @Inject
+    ExchangeRateService rateService;
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -34,7 +41,7 @@ public class ExchangeResource {
     }
 
     @POST
-    @Path("/historicalData")
+    @Path("/history")
     // TODO: validate whether currency Service serves the source/target currency
     // something like new ObjectMapper().readTree(body).get("source")
     public List<Currency> getHistoricalData(String body) {
@@ -45,19 +52,7 @@ public class ExchangeResource {
     @Path("/singleCurrency")
     // TODO: validate whether currency Service serves the source/target currency
     public Currency getExchangeRate(String body) {
-        List<Currency> currencies = historyService.getCurrencyExchangeRates(body);
-        Currency latestCurrency = currencies.get(0);
-        try {
-            String target = mapper.readTree(body).get("target").asText();
-            if(target.equals("USD")) {
-                latestCurrency.setSign("$");
-            } else {
-                latestCurrency.setSign("€");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return latestCurrency;
+        return rateService.getLatestRate(body);
     }
 
     // A simple health check of the service, as well as

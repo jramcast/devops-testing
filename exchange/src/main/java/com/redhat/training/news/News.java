@@ -1,4 +1,4 @@
-package com.redhat.restclient;
+package com.redhat.training.news;
 
 public class News {
     private String id;

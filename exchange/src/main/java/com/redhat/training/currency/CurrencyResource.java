@@ -1,4 +1,4 @@
-package com.redhat.restclient;
+package com.redhat.training.currency;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
@@ -17,7 +17,7 @@ public class CurrencyResource {
 
     @Inject
     @RestClient
-    CurrencyService currencies;
+    CurrencyRestClient currencies;
 
     @GET
     public List<String> getCurrencyNames() {

@@ -1,9 +1,8 @@
-package com.redhat.restclient;
+package com.redhat.training.news;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -16,7 +15,7 @@ public class NewsResource {
 
     @Inject
     @RestClient
-    NewsService news;
+    NewsRestClient news;
 
     @GET
     public List<News> getFinancialNews() {

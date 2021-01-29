@@ -1,4 +1,4 @@
-package com.redhat.restclient;
+package com.redhat.training;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
