@@ -1,0 +1,14 @@
+FROM registry.access.redhat.com/ubi8/nodejs-12:1
+
+WORKDIR /app
+
+# Copy and cache dependencies
+COPY package.json package-lock.json .
+RUN npm ci
+# Copy and cache source
+COPY lib ./lib
+COPY index.js .
+
+EXPOSE 8080
+
+CMD node index.js

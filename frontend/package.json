@@ -1,0 +1,58 @@
+{
+    "name": "exchange-frontend",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@patternfly/react-charts": "^5.3.5",
+        "@patternfly/react-core": "^4.50.2",
+        "@patternfly/react-icons": "^4.7.6",
+        "@patternfly/react-table": "^4.16.20",
+        "@types/node": "^14.6.0",
+        "@types/react": "^16.9.46",
+        "@types/react-dom": "^16.9.8",
+        "@types/react-router-dom": "^5.1.5",
+        "date-fns": "^2.16.1",
+        "react": "^16.13.0",
+        "react-dom": "^16.13.0",
+        "react-router-dom": "^5.1.2",
+        "react-scripts": "^3.4.3",
+        "typescript": "^3.9.7",
+        "wretch": "^1.7.2"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "start:crc": "REACT_APP_GW_ENDPOINT=http://exchange-exchange-app.apps-crc.testing react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "test:coverage": "yarn test . --coverage --collectCoverageFrom=\"src/{components,services,pages}/**/*.ts{,x}\"",
+        "test:ci": "CI=true yarn test:coverage",
+        "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
+        "format": "prettier . --write"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "@testing-library/jest-dom": "^4.2.4",
+        "@testing-library/react": "^9.3.2",
+        "@testing-library/user-event": "^7.1.2",
+        "@types/jest": "^26.0.9",
+        "eslint-config-prettier": "^6.11.0",
+        "eslint-config-react-app": "^5.2.1",
+        "eslint-plugin-prettier": "^3.1.4",
+        "jest-fetch-mock": "^3.0.3",
+        "prettier": "^2.0.5"
+    }
+}

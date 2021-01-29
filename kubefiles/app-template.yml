@@ -1,0 +1,261 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: financial-app
+  annotations:
+    description: "Financial sample application for Red Hat Training"
+objects:
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: frontend
+      labels:
+        template: exchange
+    spec:
+      selector:
+        matchLabels:
+          app: frontend
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            app: frontend
+            template: exchange
+        spec:
+          containers:
+            - name: frontend
+              image: quay.io/redhattraining/ossm-frontend:${FRONTEND_TAG}
+              imagePullPolicy: Always
+              ports:
+                - containerPort: 3000
+              env:
+                - name: REACT_APP_GW_ENDPOINT
+                  value: ${EXCHANGE_GW}
+                - name: REACT_APP_NEWS_ENABLED
+                  value: ${NEWS_ENABLED}
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      labels:
+        app: frontend
+        template: exchange
+      name: frontend
+    spec:
+      ports:
+      - port: 3000
+        protocol: TCP
+        targetPort: 3000
+      selector:
+        app: frontend
+  - kind: Deployment
+    apiVersion: apps/v1
+    metadata:
+      name: history
+      labels:
+        template: exchange
+    spec:
+      selector:
+        matchLabels:
+          app: history
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            app: history
+            template: exchange
+        spec:
+          containers:
+            - name: history
+              image: quay.io/redhattraining/ossm-history:${HISTORY_TAG}
+              imagePullPolicy: Always
+              ports:
+                - containerPort: 8080
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      labels:
+        app: history
+        template: exchange
+      name: history
+    spec:
+      ports:
+      - port: 8080
+        protocol: TCP
+        targetPort: 8080
+      selector:
+        app: history
+  - kind: Deployment
+    apiVersion: apps/v1
+    metadata:
+      name: currency
+      labels:
+        template: exchange
+    spec:
+      selector:
+        matchLabels:
+          app: currency
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            app: currency
+            template: exchange
+        spec:
+          containers:
+            - name: currency
+              image: quay.io/redhattraining/ossm-currencies:${CURRENCIES_TAG}
+              imagePullPolicy: Always
+              ports:
+                - containerPort: 5000
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      labels:
+        app: currency
+        template: exchange
+      name: currency
+    spec:
+      ports:
+      - port: 5000
+        protocol: TCP
+        targetPort: 5000
+      selector:
+        app: currency
+  - kind: Deployment
+    apiVersion: apps/v1
+    metadata:
+      name: exchange
+      labels:
+        template: exchange
+    spec:
+      selector:
+        matchLabels:
+          app: exchange
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            app: exchange
+            template: exchange
+        spec:
+          containers:
+            - name: exchange
+              image: quay.io/redhattraining/ossm-exchange:${EXCHANGE_TAG}
+              imagePullPolicy: Always
+              ports:
+                - containerPort: 8080
+              env:
+                - name: NEWS_ENDPOINT
+                  value: ${NEWS_ENDPOINT}
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      labels:
+        app: exchange
+        template: exchange
+      name: exchange
+    spec:
+      ports:
+      - port: 8080
+        protocol: TCP
+        targetPort: 8080
+      selector:
+        app: exchange
+  - kind: Route
+    apiVersion: v1
+    metadata:
+      name: exchange
+      labels:
+        template: exchange
+    spec:
+      to:
+        kind: Service
+        name: exchange
+  - kind: Route
+    apiVersion: v1
+    metadata:
+      name: frontend
+      labels:
+        template: exchange
+    spec:
+      to:
+        kind: Service
+        name: frontend
+
+  - apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: news
+      labels:
+        template: exchange
+    spec:
+      selector:
+        matchLabels:
+          app: news
+      replicas: 1
+      template:
+        metadata:
+          labels:
+            app: news
+        spec:
+          containers:
+            - name: news
+              image: quay.io/redhattraining/ossm-python-flask-gossip:2.0
+              ports:
+                - containerPort: 5000
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      labels:
+        app: news
+        template: exchange
+      name: news
+    spec:
+      ports:
+      - port: 5000
+        protocol: TCP
+        targetPort: 5000
+      selector:
+        app: news
+  - kind: Route
+    apiVersion: route.openshift.io/v1
+    metadata:
+      name: news
+      labels:
+        app: news
+        template: exchange
+    spec:
+      to:
+        kind: Service
+        name: news
+      port:
+        targetPort: 5000
+
+parameters:
+  - name: EXCHANGE_GW
+    description: "The address of the external exchange service resolvable from a browser (route)"
+    required: true
+  - name: FRONTEND_TAG
+    description: "The tag of the image used to deploy the Frontend service"
+    required: false
+    value: "1.0"
+  - name: HISTORY_TAG
+    description: "The tag of the image used to deploy the History service"
+    required: false
+    value: "1.0"
+  - name: CURRENCIES_TAG
+    description: "The tag of the image used to deploy the Currencies service"
+    required: false
+    value: "1.0"
+  - name: EXCHANGE_TAG
+    description: "The tag of the image used to deploy the EXCHANGE service"
+    required: false
+    value: "1.0"
+  - name: NEWS_ENDPOINT
+    description: "URL of the news application  backend"
+    required: false
+    value: ""
+  - name: NEWS_ENABLED
+    description: "Flag whether to show the news part of the application or not. Empty variable means false."
+    required: false
+    value: ""
