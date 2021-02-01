@@ -1,4 +1,4 @@
-package com.redhat.training.currency;
+package com.redhat.restclient;
 
 import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
@@ -11,10 +11,9 @@ import java.util.List;
 
 @Path("/")
 @RegisterRestClient
-public interface CurrencyRestClient {
+public interface NewsService {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    List<String> getCurrencyNames();
+    List<News> getFinancialNews();
 }

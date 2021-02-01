@@ -1,4 +1,4 @@
-package com.redhat.training.rate;
+package com.redhat.restclient;
 
 public class SignMapper {
 

@@ -18,3 +18,18 @@ The application is now runnable using `java -jar target/exchange-1.0-SNAPSHOT-ru
 A dockerfile was created for building a native executable. 
 
 Execute `podman build -t $quay_registry/exchange:$version .` to build a native executable.
+
+## Tests
+
+Unit
+
+```
+./mvnw verify -Dgroups="unit"
+```
+
+Integration
+
+```
+./mvnw verify -Dgroups="integration"
+```
+
