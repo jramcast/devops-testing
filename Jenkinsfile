@@ -5,10 +5,12 @@ pipeline{
 
             parallel {
                 stage("Currency") {
+                    agent {
+                        label "jenkins-agent-python-3"
+                    }
                     steps {
                         dir("currency") {
-                            sh "python --version"
-                            sh "pip install -r requirements.txt"
+                            sh "pip3 install -r requirements.txt"
                         }
                     }
                 }

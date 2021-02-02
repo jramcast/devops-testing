@@ -1,0 +1,18 @@
+FROM quay.io/openshift/origin-jenkins-agent-base:4.5
+
+RUN yum -y --setopt=tsflags=nodocs --disablerepo='rhel-*' install python3 python3-devel python3-pip && \
+    rpm -V python3 python3-devel python3-pip && \
+    yum clean all -y && \
+    rm -rf /var/cache/yum && \
+    pip3 install --user --upgrade pip && \
+    chown root:root /home/jenkins -R && \
+    chmod 775 /home/jenkins/.local -R
+
+# Local pip installation path
+ENV PATH ${PATH}:/home/jenkins/.local/bin
+
+# Fix UnicodeDecodeError
+ENV LC_ALL=en_US.UTF-8
+
+USER 1001
+
