@@ -41,5 +41,5 @@ oc delete all -l template=exchange
 To create Node.js agent,
 
 ```
-oc process -f jenkins/jenkins-agent-template.yml -p NAME=jenkins-agent-node-14 -p SOURCE_CONTEXT_DIR=jenkins/node14 | oc apply -f -
+oc process -f jenkins/jenkins-agent-template.yml  -p NAME=jenkins-agent-node-14 -p SOURCE_CONTEXT_DIR=jenkins/node14 SOURCE_REPOSITORY_REF=experiments | oc apply -f -
 ```
