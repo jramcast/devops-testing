@@ -11,7 +11,7 @@ class TestService(TestCase):
 
     def test_root_returns_200(self):
         response = self.client.get("/")
-        assert response.status_code is 200
+        assert response.status_code == 200
 
     def test_root_returns_a_list(self):
         response = self.client.get("/")
