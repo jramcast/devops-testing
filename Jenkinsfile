@@ -1,7 +1,7 @@
 pipeline{
     agent any
     stages {
-        stage("Test") {
+        stage("Code analysis & Unit Test") {
 
             failFast true
 
