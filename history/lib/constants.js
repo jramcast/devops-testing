@@ -1,5 +1,3 @@
-'use strict';
-
 const PORT = process.env.PORT || 8080;
 
 const USD_TO_EUR = [
