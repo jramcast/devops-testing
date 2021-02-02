@@ -1,10 +1,10 @@
 pipeline{
     agent any
-    stages{
+    stages {
         stage("Install deps") {
 
             parallel {
-                stage('Currency') {
+                stage("Currency") {
                     agent {
                         label "jenkins-agent-python-38"
                     }
@@ -34,14 +34,6 @@ pipeline{
                     }
                 }
             }
-
-
-            steps{
-                dir("currency") {
-                    sh ""
-                }
-            }
-
         }
     }
 }
