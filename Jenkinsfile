@@ -56,18 +56,14 @@ pipeline{
                     }
                 }
 
-                // stage('History') {
-                //     agent {
-                //         label "jenkins-agent-node-14"
-                //     }
-                //     steps {
-                //         dir("history") {
-                //             sh "npm ci"
-                //             sh "npm run lint"
-                //             sh "npm test"
-                //         }
-                //     }
-                // }
+                stage("History") {
+                    steps {
+                        sh """
+                            oc project rht-jramirez-exchange-stage
+                            oc start-build history --follow --wait
+                        """
+                    }
+                }
 
                 // stage('Exchange') {
                 //     steps {

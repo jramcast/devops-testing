@@ -75,3 +75,15 @@ https://github.com/jramcast/devops-testing#experiments \
 
 oc expose svc/currency
 ```
+
+
+History
+
+```
+oc new-app --name history \
+https://github.com/jramcast/devops-testing#experiments \
+--context-dir=history \
+--strategy=docker
+
+oc expose svc/history
+```
