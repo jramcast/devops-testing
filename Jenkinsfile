@@ -1,7 +1,9 @@
 pipeline{
     agent any
     stages {
-        stage("Install deps") {
+        stage("Test") {
+
+            failFast true
 
             parallel {
                 stage("Currency") {
@@ -11,6 +13,8 @@ pipeline{
                     steps {
                         dir("currency") {
                             sh "pip3 install -r requirements.txt"
+                            sh "./scripts lint"
+                            sh "./scripts test"
                         }
                     }
                 }
@@ -22,6 +26,8 @@ pipeline{
                     steps {
                         dir("history") {
                             sh "npm ci"
+                            sh "npm run lint"
+                            sh "npm test"
                         }
                     }
                 }
@@ -29,7 +35,7 @@ pipeline{
                 stage('Exchange') {
                     steps {
                         dir("exchange") {
-                            sh "./mvnw clean install"
+                            sh "./mvnw clean verify"
                         }
                     }
                 }
