@@ -1,4 +1,4 @@
-# Currency Exchange application
+d # Currency Exchange application
 
 This application serves as an example of multi-service application. It consists of the following services:
 
@@ -42,4 +42,8 @@ To create Node.js agent,
 
 ```
 oc process -f jenkins/jenkins-agent-template.yml  -p NAME=jenkins-agent-node-14 -p SOURCE_CONTEXT_DIR=jenkins/node14 SOURCE_REPOSITORY_REF=experiments | oc apply -f -
+```
+
+```
+oc process -f jenkins/jenkins-agent-template.yml  -p NAME=jenkins-agent-python-3 -p SOURCE_CONTEXT_DIR=jenkins/python3 SOURCE_REPOSITORY_REF=experiments | oc apply -f -
 ```

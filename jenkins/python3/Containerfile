@@ -1,10 +1,6 @@
-FROM quay.io/openshift/origin-jenkins-agent-base:4.5
+FROM registry.redhat.io/openshift4/ose-jenkins-agent-base
 
-RUN yum -y --setopt=tsflags=nodocs --disablerepo='rhel-*' install python3 python3-devel python3-pip && \
-    rpm -V python3 python3-devel python3-pip && \
-    yum clean all -y && \
-    rm -rf /var/cache/yum && \
-    pip3 install --user --upgrade pip && \
+RUN python -m pip install --user -U pip && \
     chown root:root /home/jenkins -R && \
     chmod 775 /home/jenkins/.local -R
 
