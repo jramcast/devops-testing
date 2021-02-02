@@ -7,7 +7,6 @@ pipeline{
                 stage("Currency") {
                     steps {
                         dir("currency") {
-                            sh "pip --version"
                             sh "python --version"
                             sh "pip install -r requirements.txt"
                         }
@@ -26,7 +25,7 @@ pipeline{
                 }
 
                 stage('Exchange') {
-                    steps { 
+                    steps {
                         dir("exchange") {
                             sh "./mvnw clean install"
                         }
