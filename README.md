@@ -94,8 +94,7 @@ Exchange
 ```
 oc new-app --name exchange \
 https://github.com/jramcast/devops-testing#experiments \
---context-dir=exchange \
---strategy=docker
+--context-dir=exchange
 
 oc expose svc/exchange
 ```

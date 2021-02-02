@@ -65,6 +65,19 @@ pipeline{
                     }
                 }
 
+
+                stage("Exchange") {
+                    steps {
+                        dir("exchange") {
+                            sh """
+                                oc project rht-jramirez-exchange-stage
+                                ./mvnw clean package -DskipTests -Dquarkus.kubernetes.deploy=true
+                            """
+                        }
+                    }
+                }
+
+
                 // stage('Exchange') {
                 //     steps {
                 //         dir("exchange") {
