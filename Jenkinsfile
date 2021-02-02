@@ -13,8 +13,8 @@ pipeline{
                     steps {
                         dir("currency") {
                             sh "pip3 install -r requirements.txt"
-                            sh "./scripts lint"
-                            sh "./scripts test"
+                            sh "./scripts/lint"
+                            sh "./scripts/test"
                         }
                     }
                 }
