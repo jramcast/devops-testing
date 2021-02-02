@@ -1,4 +1,4 @@
-module.exports = {
+{
     "env": {
         "commonjs": true,
         "es2021": true,
@@ -7,6 +7,10 @@ module.exports = {
     "extends": "eslint:recommended",
     "parserOptions": {
         "ecmaVersion": 12
+    },
+    "globals": {
+        "test": false,
+        "expect": false
     },
     "rules": {
         "indent": [
@@ -26,4 +30,4 @@ module.exports = {
             "always"
         ]
     }
-};
+}
