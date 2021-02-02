@@ -87,3 +87,15 @@ https://github.com/jramcast/devops-testing#experiments \
 
 oc expose svc/history
 ```
+
+
+Exchange
+
+```
+oc new-app --name exchange \
+https://github.com/jramcast/devops-testing#experiments \
+--context-dir=exchange \
+--strategy=docker
+
+oc expose svc/exchange
+```
