@@ -34,3 +34,12 @@ To delete this application, execute:
 ```sh
 oc delete all -l template=exchange
 ```
+
+
+# Jenkins agent
+
+To create Node.js agent,
+
+```
+oc process -f jenkins/jenkins-agent-template.yml -p NAME=jenkins-agent-node-14 -p SOURCE_CONTEXT_DIR=jenkins/node14 | oc apply -f -
+```
