@@ -26,7 +26,8 @@
         "test": "react-scripts test",
         "test:coverage": "yarn test . --coverage --collectCoverageFrom=\"src/{components,services,pages}/**/*.ts{,x}\"",
         "test:ci": "CI=true yarn test:coverage",
-        "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
+        "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
+        "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
         "format": "prettier . --write"
     },
     "eslintConfig": {
