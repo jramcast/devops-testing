@@ -26,7 +26,7 @@ pipeline{
                 }
 
                 stage('Exchange') {
-                    steps {
+                    steps { 
                         dir("exchange") {
                             sh "./mvnw clean install"
                         }
