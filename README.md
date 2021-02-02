@@ -36,6 +36,7 @@ oc delete all -l template=exchange
 ```
 
 
+
 ## Jenkins agents
 
 To create Node.js agent,
@@ -51,6 +52,19 @@ oc process -f jenkins/jenkins-agent-template.yml  -p NAME=jenkins-agent-python-3
 
 ## Deployments in stage environment
 
+Project:
+
+```
+oc new-project rht-jramirez-exchange-stage
+
+```
+
+Allow Jenkins to deploy to this project:
+
+```
+oc policy add-role-to-user edit system:serviceaccount:rht-jramirez-jenkins:jenkins
+```
+
 Currency
 
 ```
@@ -58,4 +72,6 @@ oc new-app --name currency \
 https://github.com/jramcast/devops-testing#experiments \
 --context-dir=currency \
 --strategy=docker
+
+oc expose svc/currency
 ```

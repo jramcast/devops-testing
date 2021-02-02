@@ -1,13 +1,12 @@
-FROM registry.access.redhat.com/ubi8/python-36:1
+FROM registry.access.redhat.com/ubi8/python-36
 
-ENV FLASK_APP="currencies.py"
-
-COPY currencies /app/
-COPY app.py requirements.txt /app/
+COPY requirements.txt /app/
 
 WORKDIR /app
 
 RUN pip install -r requirements.txt
+
+COPY . /app/
 
 EXPOSE 5000
 

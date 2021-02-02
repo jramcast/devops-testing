@@ -42,21 +42,17 @@ pipeline{
             }
         }
 
-        stage("Deploy Branch") {
+        stage("Deploy Stage") {
 
             failFast true
 
             parallel {
                 stage("Currency") {
-                    agent {
-                        label "jenkins-agent-python-3"
-                    }
                     steps {
-                        dir("currency") {
-                            sh "pip3 install -r requirements.txt"
-                            sh "./scripts/lint"
-                            sh "./scripts/test"
-                        }
+                        sh """
+                            oc project rht-jramirez-exchange-stage
+                            oc start-build currency --follow --wait
+                        """
                     }
                 }
 
