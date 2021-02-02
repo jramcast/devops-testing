@@ -98,3 +98,15 @@ https://github.com/jramcast/devops-testing#experiments \
 
 oc expose svc/exchange
 ```
+
+
+News
+
+```
+oc new-app --name news \
+https://github.com/jramcast/devops-testing#experiments \
+--context-dir=news \
+--strategy=docker
+
+oc expose svc/news
+```

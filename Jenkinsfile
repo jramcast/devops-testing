@@ -42,7 +42,7 @@ pipeline{
             }
         }
 
-        stage("Deploy Stage") {
+        stage("Deploy to Stage") {
 
             failFast true
 
@@ -65,6 +65,14 @@ pipeline{
                     }
                 }
 
+                stage("News") {
+                    steps {
+                        sh """
+                            oc project rht-jramirez-exchange-stage
+                            oc start-build news --follow --wait
+                        """
+                    }
+                }
 
                 stage("Exchange") {
                     steps {
@@ -77,14 +85,6 @@ pipeline{
                     }
                 }
 
-
-                // stage('Exchange') {
-                //     steps {
-                //         dir("exchange") {
-                //             sh "./mvnw clean verify"
-                //         }
-                //     }
-                // }
             }
 
         }
