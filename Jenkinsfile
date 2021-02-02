@@ -71,7 +71,7 @@ pipeline{
                         dir("exchange") {
                             sh """
                                 oc project rht-jramirez-exchange-stage
-                                ./mvnw clean package -DskipTests -Dquarkus.kubernetes.deploy=true
+                                ./mvnw clean package -DskipTests -Dquarkus.kubernetes.deploy=true -Dquarkus.openshift.expose=true
                             """
                         }
                     }
