@@ -18,7 +18,7 @@ pipeline{
                         label "jenkins-agent-node-14"
                     }
                     steps {
-                        dir("currency") {
+                        dir("history") {
                             sh "npm ci"
                         }
                     }
