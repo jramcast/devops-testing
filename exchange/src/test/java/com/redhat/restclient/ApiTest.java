@@ -8,8 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 
-@Tag("integration")
 @QuarkusTest
+@Tag("integration")
 public class ApiTest {
 
     @Test

@@ -24,6 +24,12 @@ Execute `podman build -t $quay_registry/exchange:$version .` to build a native e
 Unit
 
 ```
+./mvnw verify
+```
+
+or
+
+```
 ./mvnw verify -Dgroups="unit"
 ```
 

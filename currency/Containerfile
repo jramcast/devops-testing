@@ -2,8 +2,8 @@ FROM registry.access.redhat.com/ubi8/python-36:1
 
 ENV FLASK_APP="currencies.py"
 
-COPY src /app
-COPY requirements.txt /app
+COPY currencies /app/
+COPY app.py requirements.txt /app/
 
 WORKDIR /app
 

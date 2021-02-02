@@ -17,6 +17,7 @@
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <quarkus.platform.version>1.11.1.Final</quarkus.platform.version>
     <surefire-plugin.version>2.22.1</surefire-plugin.version>
+    <groups>unit</groups>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -86,7 +87,22 @@
             <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
             <maven.home>${maven.home}</maven.home>
           </systemPropertyVariables>
+          <!-- <excludedGroups>integration</excludedGroups> -->
+          <groups>${groups}</groups>
         </configuration>
+        <!-- <executions>
+          <execution>
+              <id>integration-tests</id>
+              <phase>integration-test</phase>
+              <goals>
+                  <goal>test</goal>
+              </goals>
+              <configuration>
+                  <excludedGroups>!integration</excludedGroups>
+                  <groups>integration</groups>
+              </configuration>
+          </execution>
+        </executions> -->
       </plugin>
     </plugins>
   </build>

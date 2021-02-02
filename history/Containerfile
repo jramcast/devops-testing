@@ -1,9 +1,7 @@
-FROM registry.access.redhat.com/ubi8/nodejs-12:1
-
-WORKDIR /app
+FROM registry.access.redhat.com/ubi8/nodejs-12
 
 # Copy and cache dependencies
-COPY package.json package-lock.json .
+COPY package.json package-lock.json ./
 RUN npm ci
 # Copy and cache source
 COPY lib ./lib

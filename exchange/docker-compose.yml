@@ -1,0 +1,31 @@
+version: '3'
+services:
+  exchange:
+    build:
+      context: .
+      dockerfile: Containerfile
+    ports:
+    - "8090:8080"
+    depends_on:
+    - currency
+    - history
+    - news
+  currency:
+    build:
+      context: ../currency
+      dockerfile: Containerfile
+    ports:
+    - "8091:5000"
+  history:
+    build:
+      context: ../history
+      dockerfile: Containerfile
+    ports:
+    - "8092:8080"
+  news:
+    build:
+      context: ../news
+      dockerfile: Containerfile
+    ports:
+    - "8093:5000"
+
