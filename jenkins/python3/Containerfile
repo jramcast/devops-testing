@@ -11,4 +11,3 @@ ENV PATH ${PATH}:/home/jenkins/.local/bin
 ENV LC_ALL=en_US.UTF-8
 
 USER 1001
-
