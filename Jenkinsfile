@@ -95,7 +95,7 @@ pipeline{
                 label "jenkins-agent-cypress"
             }
             steps {
-                dir("currency") {
+                dir("frontend") {
                     sh "npm ci"
                     sh "npm run lint"
                     sh "npx cypress run"

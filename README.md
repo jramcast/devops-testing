@@ -45,8 +45,16 @@ To create Node.js agent,
 oc process -f jenkins/jenkins-agent-template.yml  -p NAME=jenkins-agent-node-14 -p SOURCE_CONTEXT_DIR=jenkins/node14 SOURCE_REPOSITORY_REF=experiments | oc apply -f -
 ```
 
+Python agent
+
 ```
 oc process -f jenkins/jenkins-agent-template.yml  -p NAME=jenkins-agent-python-3 -p SOURCE_CONTEXT_DIR=jenkins/python3 SOURCE_REPOSITORY_REF=experiments | oc apply -f -
+```
+
+Cypress
+
+```
+oc process -f jenkins/jenkins-agent-template.yml  -p NAME=jenkins-agent-cypress -p SOURCE_CONTEXT_DIR=jenkins/cypress SOURCE_REPOSITORY_REF=experiments | oc apply -f -
 ```
 
 
