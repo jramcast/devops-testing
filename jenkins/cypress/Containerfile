@@ -1,6 +1,6 @@
 FROM registry.redhat.io/openshift4/ose-jenkins-agent-base:v4.6
 
-# Add Node.js repo
+# Add repos
 COPY CentOS.repo /etc/yum.repos.d/
 RUN yum install -y --setopt=tsflags=nodocs gcc-c++ make
 RUN curl -sL https://rpm.nodesource.com/setup_12.x | bash -
