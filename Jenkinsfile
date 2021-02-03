@@ -98,6 +98,7 @@ pipeline{
                 dir("frontend") {
                     sh "npm ci"
                     sh "npm run test:functional"
+                    // TODO:Pass services as env variables: news.rht-jramirez-exchange-stage:5000
                 }
             }
         }

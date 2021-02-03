@@ -1,0 +1,27 @@
+[base]
+name=CentOS-8 - Base
+mirrorlist=http://mirrorlist.centos.org/?release=8&arch=$basearch&repo=BaseOS&infra=$infra
+#baseurl=http://mirror.centos.org/centos/8/BaseOS/$basearch/os/
+gpgcheck=0
+
+
+[updates]
+name=CentOS-8 - Updates
+mirrorlist=http://mirrorlist.centos.org/?release=8&arch=$basearch&repo=AppStream&infra=$infra
+#baseurl=http://mirror.centos.org/centos/8/AppStream/$basearch/os/
+gpgcheck=0 
+
+#additional packages that may be useful
+[extras]
+name=CentOS-8 - Extras
+mirrorlist=http://mirrorlist.centos.org/?release=8&arch=$basearch&repo=extras&infra=$infra
+#baseurl=http://mirror.centos.org/centos/8/extras/$basearch/
+gpgcheck=0 
+
+#additional packages that extend functionality of existing packages
+[centosplus]
+name=CentOS-8 - Plus
+mirrorlist=http://mirrorlist.centos.org/?release=8&arch=$basearch&repo=centosplus&infra=$infra
+#baseurl=http://mirror.centos.org/centos/8/centosplus/$basearch/
+gpgcheck=0
+enabled=0

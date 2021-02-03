@@ -1,11 +1,12 @@
-FROM openshift/jenkins-slave-base-centos7
+FROM registry.redhat.io/openshift4/ose-jenkins-agent-base
 
 # Add Node.js repo
+COPY CentOS.repo /etc/yum.repos.d/
 RUN yum install -y --setopt=tsflags=nodocs gcc-c++ make
 RUN curl -sL https://rpm.nodesource.com/setup_12.x | bash -
 
 # Reference: https://github.com/cypress-io/cypress-docker-images/blob/master/base/centos7-12.4.0/Dockerfile
-RUN yum install -y --setopt=tsflags=nodocs \
+RUN yum install -y --disableplugin=subscription-manager --setopt=tsflags=nodocs \
         nodejs xorg-x11-server-Xvfb xorg-x11-xauth \
         gtk2-2.24* gtk3-3.22* libXtst* libXScrnSaver* \
         GConf2* alsa-lib* git* && \
