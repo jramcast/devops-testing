@@ -97,7 +97,6 @@ pipeline{
             steps {
                 dir("frontend") {
                     sh "npm ci"
-                    sh "npm run lint"
                     sh "npx cypress run"
                 }
             }
