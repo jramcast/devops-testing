@@ -97,7 +97,7 @@ pipeline{
             steps {
                 dir("frontend") {
                     sh "npm ci"
-                    sh "npx cypress run"
+                    sh "npm run test:functional"
                 }
             }
         }
