@@ -50,8 +50,7 @@ pipeline{
                 stage("Currency") {
                     steps {
                         sh """
-                            oc project rht-jramirez-exchange-stage
-                            oc start-build currency --follow --wait
+                            oc start-build currency --follow --wait -n rht-jramirez-exchange-stage
                         """
                     }
                 }
@@ -59,8 +58,7 @@ pipeline{
                 stage("History") {
                     steps {
                         sh """
-                            oc project rht-jramirez-exchange-stage
-                            oc start-build history --follow --wait
+                            oc start-build history --follow --wait -n rht-jramirez-exchange-stage
                         """
                     }
                 }
@@ -68,8 +66,7 @@ pipeline{
                 stage("News") {
                     steps {
                         sh """
-                            oc project rht-jramirez-exchange-stage
-                            oc start-build news --follow --wait
+                            oc start-build news --follow --wait -n rht-jramirez-exchange-stage
                         """
                     }
                 }
@@ -85,20 +82,15 @@ pipeline{
                     }
                 }
 
-                stage('Frontend') {
-                    agent {
-                        label "jenkins-agent-node-14"
-                    }
+                stage("Frontend") {
                     steps {
-                        dir("frontend") {
-                            sh "npm ci"
-                            sh "npm run build:stage"
-                        }
+                        sh """
+                            oc start-build frontend --follow --wait -n rht-jramirez-exchange-stage
+                        """
                     }
                 }
 
             }
-
         }
 
 

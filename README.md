@@ -127,5 +127,5 @@ https://github.com/jramcast/devops-testing#experiments \
 --context-dir=frontend \
 --strategy=docker
 
-oc expose svc/news
+oc expose svc/frontend
 ```
