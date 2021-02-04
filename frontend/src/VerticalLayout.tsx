@@ -16,7 +16,9 @@ export function VerticalLayout(props: { children: React.ReactNode }) {
 
     const Header = (
         <PageHeader
-            logo={<Brand src={imgBrand} alt="Patternfly Logo" />}
+            logo={
+                <Brand src={imgBrand} alt="Patternfly Logo" className="logo" />
+            }
             logoProps={{ href: "/frontend/" }}
             showNavToggle
             isNavOpen={isNavOpen}

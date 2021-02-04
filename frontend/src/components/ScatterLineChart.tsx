@@ -37,7 +37,7 @@ export function ScatterLineChart(props: { data: Currency[]; target: string }) {
         return () => {
             window.removeEventListener("resize", handleResize);
         };
-    }, []);
+    });
 
     useEffect(() => {
         // TODO: does this need to be reversed?

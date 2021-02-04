@@ -8,7 +8,7 @@ export function ExchangeNav() {
         <Nav theme="dark">
             <NavList>
                 <NavItemLink label="Home" exact path="/" />
-                <NavItemLink label="Historical Data" path="/history" />
+                <NavItemLink label="Historical Data" path="/history"/>
                 <NavItemLink label="Exchange" path="/exchange" />
                 {newsEnabled && <NavItemLink label="News" path="/news" />}
             </NavList>

@@ -8,7 +8,7 @@ export enum ServiceName {
 // these environment variables are only evaluated/available at build time
 const serviceUrlMap: { [key in ServiceName]: string } = {
     [ServiceName.GW_SERVICE]:
-        process.env.REACT_APP_GW_ENDPOINT ?? "http://localhost:3001/",
+        process.env.REACT_APP_GW_ENDPOINT ?? "http://localhost:8080/",
 };
 console.log("serviceURL map:", serviceUrlMap);
 

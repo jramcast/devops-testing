@@ -6,6 +6,7 @@ import { HistoricalDataForm } from "./pages/HistoricalDataForm";
 import { Welcome } from "./pages/Welcome";
 import { SingleCurrencyExchange } from "./pages/SingleCurrencyExchange";
 import { NewsBoard } from "./pages/NewsBoard";
+import "./style.css";
 
 export function App() {
     const newsEnabled = process.env.REACT_APP_NEWS_ENABLED ?? true;

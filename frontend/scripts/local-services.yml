@@ -2,30 +2,30 @@ version: '3'
 services:
   exchange:
     build:
-      context: .
+      context: ../../exchange
       dockerfile: Containerfile
     ports:
-    - "3001:8080"
+    - "8080:8080"
     depends_on:
     - currency
     - history
     - news
-  currency:do400
+  currency:
     build:
-      context: ../currency
+      context: ../../currency
       dockerfile: Containerfile
     ports:
-    - "3002:5000"
+    - "8081:5000"
   history:
     build:
-      context: ../history
+      context: ../../history
       dockerfile: Containerfile
     ports:
-    - "3003:8080"
+    - "8082:8080"
   news:
     build:
-      context: ../news
+      context: ../../news
       dockerfile: Containerfile
     ports:
-    - "3004:5000"
+    - "8083:5000"
 
