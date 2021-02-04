@@ -90,7 +90,7 @@ pipeline{
                         label "jenkins-agent-node-14"
                     }
                     steps {
-                        dir("history") {
+                        dir("frontend") {
                             sh "npm ci"
                             sh "npm run build:stage"
                         }
