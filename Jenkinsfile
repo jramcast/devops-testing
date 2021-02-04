@@ -101,8 +101,7 @@ pipeline{
             steps {
                 dir("frontend") {
                     sh "npm ci"
-                    sh "npm run test:functional"
-                    // TODO:Pass services as env variables: news.rht-jramirez-exchange-stage:5000
+                    sh "BASEURL=http://exchange-rht-jramirez-exchange-stage.apps.na45-stage.dev.nextcle.com/ npm run test:functional"
                 }
             }
         }
