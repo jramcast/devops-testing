@@ -1,27 +1,19 @@
-FROM registry.access.redhat.com/ubi8/nodejs-12:1
+FROM registry.access.redhat.com/ubi8/nodejs-14 as build
+# Install dependencies
+COPY package.json package-lock.json  /opt/app-root/src/
+RUN npm ci --no-optional
+# Copy app
+COPY . /opt/app-root/src/
+# Build
+RUN npm run build:stage
 
-# All env vars exposed to the React app must start with REACT_APP
-# URL of the exchange app reachable from the client
-# Typically replaced by Kubernetes/OpenShift config/secret
-ENV REACT_APP_GW_ENDPOINT=PLACEHOLDER
-# Implement retry behavior by default
-ENV REACT_APP_RETRY_INVALID_REQUESTS=true
-# If set to a truthy value, the news tab becomes visible
-ENV REACT_APP_NEWS_ENABLED=""
-# npm start reads the PORT prop and binds to the port
-ENV PORT=3000
 
-# Cache dependencies
-COPY package.json package-lock.json ./
-RUN npm ci --production
+FROM registry.access.redhat.com/ubi8/nginx-118
+# Get build folder
+COPY --from=build /opt/app-root/src/build .
 
-# Cache public files
-COPY public ./public
-# Cache tsconfig
-COPY tsconfig.json .
+# Add config
+COPY nginx.conf "${NGINX_CONF_PATH}"
 
-COPY src ./src
-
-EXPOSE ${PORT}
-
-CMD npm start
+# Run script uses standard ways to run the application
+CMD nginx -g "daemon off;"

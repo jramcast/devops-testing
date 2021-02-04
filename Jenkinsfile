@@ -7,7 +7,7 @@ pipeline{
 
             parallel {
                 stage("Currency") {
-                    agent { 
+                    agent {
                         label "jenkins-agent-python-3"
                     }
                     steps {

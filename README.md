@@ -118,3 +118,14 @@ https://github.com/jramcast/devops-testing#experiments \
 
 oc expose svc/news
 ```
+
+Front
+
+```
+oc new-app --name frontend \
+https://github.com/jramcast/devops-testing#experiments \
+--context-dir=frontend \
+--strategy=docker
+
+oc expose svc/news
+```

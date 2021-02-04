@@ -1,0 +1,12 @@
+.git
+.dockerignore
+.gitignore
+.eslintrc.json
+.eslintignore
+.editorconfig
+node_modules/
+coverage/
+cypress/
+scripts/
+build/
+*.test.ts
