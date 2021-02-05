@@ -19,6 +19,19 @@ A dockerfile was created for building a native executable.
 
 Execute `podman build -t $quay_registry/exchange:$version .` to build a native executable.
 
+
+# Run with other services in local
+
+
+Start your the history and currency microservices:
+
+```
+./scripts/start-local-services
+```
+
+In a different terminal, run
+
+CURRENCY_SERVICE=localhost:8421 HISTORY_SERVICE=localhost:8422 ./mvnw compile quarkus:dev
 ## Tests
 
 Unit
@@ -36,6 +49,6 @@ or
 Integration
 
 ```
-./mvnw verify -Dgroups="integration"
+CURRENCY_SERVICE=localhost:8421 HISTORY_SERVICE=localhost:8422 ./mvnw verify -Dgroups="integration"
 ```
 

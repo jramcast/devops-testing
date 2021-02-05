@@ -22,11 +22,11 @@ public class Currency {
         this.date = date;
     }
 
-    public String getSign() {
+    public String getSymbol() {
         return sign;
     }
 
-    public void setSign(String sign) {
+    public void setSymbol(String sign) {
         this.sign = sign;
     }
 

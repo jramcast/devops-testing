@@ -1,6 +1,7 @@
 package com.redhat.restclient;
 
 import org.eclipse.microprofile.rest.client.inject.RestClient;
+import com.redhat.restclient.services.CurrencyService;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;

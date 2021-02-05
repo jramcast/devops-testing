@@ -9,13 +9,21 @@ import org.junit.jupiter.api.Tag;
 public class SignMapperTest {
 
     @Test
-    void returnsTheCorrectSign() throws Exception {
-
+    void mapsUSD() throws Exception {
         SignMapper mapper = new SignMapper();
 
         String simbol = mapper.getSign("USD");
 
         assertEquals("$", simbol);
+    }
+
+    @Test
+    void mapsEUR() throws Exception {
+        SignMapper mapper = new SignMapper();
+
+        String simbol = mapper.getSign("EUR");
+
+        assertEquals("€", simbol);
     }
 
 }

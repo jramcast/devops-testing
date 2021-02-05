@@ -1,0 +1,15 @@
+version: '3'
+services:
+  currency:
+    build:
+      context: ../../currency
+      dockerfile: Containerfile
+    ports:
+    - "8421:5000"
+  history:
+    build:
+      context: ../../history
+      dockerfile: Containerfile
+    ports:
+    - "8422:8080"
+

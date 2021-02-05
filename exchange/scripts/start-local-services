@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# Set the current working directory
+cd $(dirname $0)
+
+# Use podman-compose if available
+if [ -x "$(command -v podman-compose)" ]
+then
+    COMPOSE="podman-compose"
+else
+    COMPOSE="docker-compose"
+fi
+
+$COMPOSE -f local-services.yml -p exchange down || true
+$COMPOSE -f local-services.yml -p exchange up
