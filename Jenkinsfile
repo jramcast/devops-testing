@@ -11,72 +11,72 @@ pipeline{
     }
 
     stages {
-        // stage("Code analysis & Unit Test") {
-        //     parallel {
-        //         stage("Currency") {
-        //             agent {
-        //                 label "jenkins-agent-python-3"
-        //             }
-        //             steps {
-        //                 dir("currency") {
-        //                     sh "pip3 install -r requirements.txt"
-        //                     sh "./scripts/lint"
-        //                     sh "./scripts/test"
-        //                 }
-        //             }
-        //         }
+        stage("Code analysis & Unit Test") {
+            parallel {
+                stage("Currency") {
+                    agent {
+                        label "jenkins-agent-python-3"
+                    }
+                    steps {
+                        dir("currency") {
+                            sh "pip3 install -r requirements.txt"
+                            sh "./scripts/lint"
+                            sh "./scripts/test"
+                        }
+                    }
+                }
 
-        //         stage('History') {
-        //             agent {
-        //                 label "jenkins-agent-node-14"
-        //             }
-        //             steps {
-        //                 dir("history") {
-        //                     sh "npm ci"
-        //                     sh "npm run lint"
-        //                     sh "npm run test:ci"
-        //                 }
-        //             }
-        //         }
+                stage('History') {
+                    agent {
+                        label "jenkins-agent-node-14"
+                    }
+                    steps {
+                        dir("history") {
+                            sh "npm ci"
+                            sh "npm run lint"
+                            sh "npm run test:ci"
+                        }
+                    }
+                }
 
-        //         stage('Exchange') {
-        //             steps {
-        //                 dir("exchange") {
-        //                     sh "./mvnw clean verify"
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+                stage('Exchange') {
+                    steps {
+                        dir("exchange") {
+                            sh "./mvnw clean verify"
+                        }
+                    }
+                }
+            }
+        }
 
-        // stage("Service Level Integration Testing") {
-        //     parallel {
-        //         stage('History') {
-        //             agent {
-        //                 label "jenkins-agent-node-14"
-        //             }
-        //             steps {
-        //                 dir("history") {
-        //                     sh "npm ci"
-        //                     sh "npm run test:integration"
-        //                 }
-        //             }
-        //         }
+        stage("Service Level Integration Testing") {
+            parallel {
+                stage('History') {
+                    agent {
+                        label "jenkins-agent-node-14"
+                    }
+                    steps {
+                        dir("history") {
+                            sh "npm ci"
+                            sh "npm run test:integration"
+                        }
+                    }
+                }
 
-        //         stage('Frontend') {
-        //             agent {
-        //                 label "jenkins-agent-node-14"
-        //             }
-        //             steps {
-        //                 dir("frontend") {
-        //                     sh "npm ci --no-optional"
-        //                     sh "npm run lint"
-        //                     sh "npm run test:ci"
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+                stage('Frontend') {
+                    agent {
+                        label "jenkins-agent-node-14"
+                    }
+                    steps {
+                        dir("frontend") {
+                            sh "npm ci --no-optional"
+                            sh "npm run lint"
+                            sh "npm run test:ci"
+                        }
+                    }
+                }
+            }
+        }
 
         stage("Deploy to Stage") {
 
@@ -181,7 +181,7 @@ pipeline{
                             sh "npm run test:functional"
                         }
 
-                        archiveArtifacts "cypress/screenshots"
+                        archiveArtifacts "cypress/video"
                     }
 
                 }
