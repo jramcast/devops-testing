@@ -86,7 +86,10 @@ pipeline{
 
                 stage("Frontend") {
                     steps {
-                        createOrUpdate("frontend")
+                        createOrUpdate(
+                            "frontend",
+                            "--build-env REACT_APP_GW_ENDPOINT=http://exchange-${STAGE_PROJECT}.apps.na45-stage.dev.nextcle.com/"
+                        )
                     }
                 }
             }
@@ -124,7 +127,7 @@ pipeline{
                             sh """
                                 oc project $TEST_PROJECT
                                 ./mvnw clean package -DskipTests \
-                                    -Dquarkus.kubernetes.name=${BRANCH_NAME}-exchange \
+                                    -Dquarkus.openshift.name=${BRANCH_NAME}-exchange \
                                     -Dquarkus.kubernetes.deploy=true \
                                     -Dquarkus.openshift.expose=true
                             """
@@ -134,7 +137,10 @@ pipeline{
 
                 stage("Frontend") {
                     steps {
-                        createOrUpdate("frontend")
+                        createOrUpdate(
+                            "frontend",
+                            "--build-env REACT_APP_GW_ENDPOINT=http://${BRANCH_NAME}-exchange-${TEST_PROJECT}.apps.na45-stage.dev.nextcle.com/"
+                        )
                     }
                 }
             }
@@ -167,9 +173,14 @@ pipeline{
 }
 
 
-def createOrUpdate(service) {
+def createOrUpdate(service, args) {
     def name = "";
     def project = "";
+    def additionalArgs = "";
+
+    if (args != null) {
+        additionalArgs = args;
+    }
 
     if (env.BRANCH_NAME == MAIN_BRANCH) {
         name = service
@@ -187,7 +198,7 @@ def createOrUpdate(service) {
                 https://github.com/jramcast/devops-testing#${BRANCH_NAME} \
                 --context-dir=$service \
                 --strategy=docker \
-                || true
+                $additionalArgs || true
         """
         sh "oc expose svc/$name"
     } else {

@@ -5,7 +5,7 @@ RUN npm ci --no-optional
 # Copy app
 COPY . /opt/app-root/src/
 # Build
-RUN npm run build:stage
+RUN npm run build
 
 
 FROM registry.access.redhat.com/ubi8/nginx-118
