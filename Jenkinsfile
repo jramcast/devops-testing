@@ -55,7 +55,7 @@ pipeline{
                         dir("frontend") {
                             sh "npm ci --no-optional"
                             sh "npm run lint"
-                            sh "npm test"
+                            sh "npm run test:ci"
 
                             archiveArtifacts "coverage"
                         }
