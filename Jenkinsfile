@@ -57,7 +57,7 @@ pipeline{
                             sh "npm run lint"
                             sh "npm run test:ci"
 
-                            archiveArtifacts "coverage"
+                            // archiveArtifacts "coverage"
                         }
                     }
                 }
