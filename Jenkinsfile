@@ -198,7 +198,8 @@ def createOrUpdate(service) {
             oc new-app --name $name \
                 https://github.com/jramcast/devops-testing#${BRANCH_NAME} \
                 --context-dir=$service \
-                --strategy=docker
+                --strategy=docker \
+                || true
         """
         sh "oc expose svc/$name"
     } else {
