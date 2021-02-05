@@ -11,74 +11,72 @@ pipeline{
     }
 
     stages {
-        stage("Code analysis & Unit Test") {
-            parallel {
-                stage("Currency") {
-                    agent {
-                        label "jenkins-agent-python-3"
-                    }
-                    steps {
-                        dir("currency") {
-                            sh "pip3 install -r requirements.txt"
-                            sh "./scripts/lint"
-                            sh "./scripts/test"
-                        }
-                    }
-                }
+        // stage("Code analysis & Unit Test") {
+        //     parallel {
+        //         stage("Currency") {
+        //             agent {
+        //                 label "jenkins-agent-python-3"
+        //             }
+        //             steps {
+        //                 dir("currency") {
+        //                     sh "pip3 install -r requirements.txt"
+        //                     sh "./scripts/lint"
+        //                     sh "./scripts/test"
+        //                 }
+        //             }
+        //         }
 
-                stage('History') {
-                    agent {
-                        label "jenkins-agent-node-14"
-                    }
-                    steps {
-                        dir("history") {
-                            sh "npm ci"
-                            sh "npm run lint"
-                            sh "npm run test:ci"
-                        }
-                    }
-                }
+        //         stage('History') {
+        //             agent {
+        //                 label "jenkins-agent-node-14"
+        //             }
+        //             steps {
+        //                 dir("history") {
+        //                     sh "npm ci"
+        //                     sh "npm run lint"
+        //                     sh "npm run test:ci"
+        //                 }
+        //             }
+        //         }
 
-                stage('Exchange') {
-                    steps {
-                        dir("exchange") {
-                            sh "./mvnw clean verify"
-                        }
-                    }
-                }
+        //         stage('Exchange') {
+        //             steps {
+        //                 dir("exchange") {
+        //                     sh "./mvnw clean verify"
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
-                stage('Frontend') {
-                    agent {
-                        label "jenkins-agent-node-14"
-                    }
-                    steps {
-                        dir("frontend") {
-                            sh "npm ci --no-optional"
-                            sh "npm run lint"
-                            sh "npm run test:ci"
+        // stage("Service Level Integration Testing") {
+        //     parallel {
+        //         stage('History') {
+        //             agent {
+        //                 label "jenkins-agent-node-14"
+        //             }
+        //             steps {
+        //                 dir("history") {
+        //                     sh "npm ci"
+        //                     sh "npm run test:integration"
+        //                 }
+        //             }
+        //         }
 
-                            // archiveArtifacts "coverage"
-                        }
-                    }
-                }
-            }
-        }
-
-        stage("Component Integration Testing") {
-            parallel {
-                stage('History') {
-                    agent {
-                        label "jenkins-agent-node-14"
-                    }
-                    steps {
-                        dir("history") {
-                            sh "npm ci"
-                            sh "npm run test:integration"
-                        }
-                    }
-                }
-            }
-        }
+        //         stage('Frontend') {
+        //             agent {
+        //                 label "jenkins-agent-node-14"
+        //             }
+        //             steps {
+        //                 dir("frontend") {
+        //                     sh "npm ci --no-optional"
+        //                     sh "npm run lint"
+        //                     sh "npm run test:ci"
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
         stage("Deploy to Stage") {
 
@@ -147,7 +145,9 @@ pipeline{
                                 ./mvnw clean package -DskipTests \
                                     -Dquarkus.openshift.name=${BRANCH_NAME}-exchange \
                                     -Dquarkus.kubernetes.deploy=true \
-                                    -Dquarkus.openshift.expose=true
+                                    -Dquarkus.openshift.expose=true \
+                                    -Dquarkus.openshift.env.vars.HISTORY_SERVICE=${BRANCH_NAME}-history:8080
+                                    -Dquarkus.openshift.env.vars.CURRENCY_SERVICE=${BRANCH_NAME}-currency:8080
                             """
                         }
                     }
@@ -213,6 +213,7 @@ def createOrUpdate(service, args) {
                 --strategy=docker \
                 $args || true
         """
+        sh "oc logs -f bc/$name"
         sh "oc expose svc/$name"
     } else {
         sh "oc start-build $name --follow --wait -n $project"
