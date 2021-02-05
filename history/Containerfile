@@ -2,10 +2,11 @@ FROM registry.access.redhat.com/ubi8/nodejs-12
 
 # Copy and cache dependencies
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm ci --production
+
 # Copy and cache source
-COPY lib ./lib
-COPY index.js .
+COPY source ./source
+COPY app.js .
 
 EXPOSE 8080
 
