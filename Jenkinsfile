@@ -49,6 +49,9 @@ pipeline{
                 }
 
                 stage('Frontend') {
+                    agent {
+                        label "jenkins-agent-node-14"
+                    }
                     steps {
                         dir("frontend") {
                             sh "npm ci"
