@@ -133,7 +133,7 @@ pipeline{
                             sh """
                                 oc project $TEST_PROJECT
                                 ./mvnw clean package -DskipTests \
-                                    -Dquarkus.kubernetes.name=exchange-${BRANCH-NAME} \
+                                    -Dquarkus.kubernetes.name=exchange-${BRANCH_NAME} \
                                     -Dquarkus.kubernetes.deploy=true \
                                     -Dquarkus.openshift.expose=true
                             """
