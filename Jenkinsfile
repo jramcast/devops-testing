@@ -1,5 +1,3 @@
-STAGE_PROJECT = "rht-jramirez-exchange-stage"
-PROD_PROJECT = "rht-jramirez-exchange-prod"
 
 pipeline{
     agent any
@@ -8,7 +6,9 @@ pipeline{
         stage('Create feature environment') {
 
             steps {
-                echo scmVars.GIT_BRANCH
+                b =  scmVars.GIT_BRANCH
+
+                sh "echo $b"
             }
 
         }
