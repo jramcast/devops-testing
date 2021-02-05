@@ -11,158 +11,158 @@ pipeline{
     }
 
     stages {
-        // stage("Code analysis & Unit Test") {
-        //     parallel {
-        //         stage("Currency") {
-        //             agent {
-        //                 label "jenkins-agent-python-3"
-        //             }
-        //             steps {
-        //                 dir("currency") {
-        //                     sh "pip3 install -r requirements.txt"
-        //                     sh "./scripts/lint"
-        //                     sh "./scripts/test"
-        //                 }
-        //             }
-        //         }
+        stage("Code analysis & Unit Test") {
+            parallel {
+                stage("Currency") {
+                    agent {
+                        label "jenkins-agent-python-3"
+                    }
+                    steps {
+                        dir("currency") {
+                            sh "pip3 install -r requirements.txt"
+                            sh "./scripts/lint"
+                            sh "./scripts/test"
+                        }
+                    }
+                }
 
-        //         stage('History') {
-        //             agent {
-        //                 label "jenkins-agent-node-14"
-        //             }
-        //             steps {
-        //                 dir("history") {
-        //                     sh "npm ci"
-        //                     sh "npm run lint"
-        //                     sh "npm run test:ci"
-        //                 }
-        //             }
-        //         }
+                stage('History') {
+                    agent {
+                        label "jenkins-agent-node-14"
+                    }
+                    steps {
+                        dir("history") {
+                            sh "npm ci"
+                            sh "npm run lint"
+                            sh "npm run test:ci"
+                        }
+                    }
+                }
 
-        //         stage('Exchange') {
-        //             steps {
-        //                 dir("exchange") {
-        //                     sh "./mvnw clean verify"
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+                stage('Exchange') {
+                    steps {
+                        dir("exchange") {
+                            sh "./mvnw clean verify"
+                        }
+                    }
+                }
+            }
+        }
 
-        // stage("Service Level Integration Testing") {
-        //     parallel {
-        //         stage('History') {
-        //             agent {
-        //                 label "jenkins-agent-node-14"
-        //             }
-        //             steps {
-        //                 dir("history") {
-        //                     sh "npm ci"
-        //                     sh "npm run test:integration"
-        //                 }
-        //             }
-        //         }
+        stage("Service Level Integration Testing") {
+            parallel {
+                stage('History') {
+                    agent {
+                        label "jenkins-agent-node-14"
+                    }
+                    steps {
+                        dir("history") {
+                            sh "npm ci"
+                            sh "npm run test:integration"
+                        }
+                    }
+                }
 
-        //         stage('Frontend') {
-        //             agent {
-        //                 label "jenkins-agent-node-14"
-        //             }
-        //             steps {
-        //                 dir("frontend") {
-        //                     sh "npm ci --no-optional"
-        //                     sh "npm run lint"
-        //                     sh "npm run test:ci"
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+                stage('Frontend') {
+                    agent {
+                        label "jenkins-agent-node-14"
+                    }
+                    steps {
+                        dir("frontend") {
+                            sh "npm ci --no-optional"
+                            sh "npm run lint"
+                            sh "npm run test:ci"
+                        }
+                    }
+                }
+            }
+        }
 
-        // stage("Deploy to Stage") {
+        stage("Deploy to Stage") {
 
-        //     when { branch MAIN_BRANCH }
+            when { branch MAIN_BRANCH }
 
-        //     parallel {
-        //         stage("Currency") {
-        //             steps {
-        //                 createOrUpdate("currency", "")
-        //             }
-        //         }
+            parallel {
+                stage("Currency") {
+                    steps {
+                        createOrUpdate("currency", "")
+                    }
+                }
 
-        //         stage("History") {
-        //             steps {
-        //                 createOrUpdate("history", "")
-        //             }
-        //         }
+                stage("History") {
+                    steps {
+                        createOrUpdate("history", "")
+                    }
+                }
 
-        //         stage("Exchange") {
-        //             steps {
-        //                 dir("exchange") {
-        //                     sh """
-        //                         oc project $STAGE_PROJECT
-        //                         ./mvnw clean package -DskipTests -Dquarkus.kubernetes.deploy=true -Dquarkus.openshift.expose=true
-        //                     """
-        //                 }
-        //             }
-        //         }
+                stage("Exchange") {
+                    steps {
+                        dir("exchange") {
+                            sh """
+                                oc project $STAGE_PROJECT
+                                ./mvnw clean package -DskipTests -Dquarkus.kubernetes.deploy=true -Dquarkus.openshift.expose=true
+                            """
+                        }
+                    }
+                }
 
-        //         stage("Frontend") {
-        //             steps {
-        //                 createOrUpdate(
-        //                     "frontend",
-        //                     "--build-env REACT_APP_GW_ENDPOINT=http://exchange-${STAGE_PROJECT}.apps.na45-stage.dev.nextcle.com/"
-        //                 )
-        //             }
-        //         }
-        //     }
-        // }
+                stage("Frontend") {
+                    steps {
+                        createOrUpdate(
+                            "frontend",
+                            "--build-env REACT_APP_GW_ENDPOINT=http://exchange-${STAGE_PROJECT}.apps.na45-stage.dev.nextcle.com/"
+                        )
+                    }
+                }
+            }
+        }
 
 
-        // stage("Deploy Branch to Test") {
+        stage("Deploy Branch to Test") {
 
-        //     when {
-        //         expression { env.BRANCH_NAME != MAIN_BRANCH }
-        //     }
+            when {
+                expression { env.BRANCH_NAME != MAIN_BRANCH }
+            }
 
-        //     parallel {
-        //         stage("Currency") {
-        //             steps {
-        //                 createOrUpdate("currency", "")
-        //             }
-        //         }
+            parallel {
+                stage("Currency") {
+                    steps {
+                        createOrUpdate("currency", "")
+                    }
+                }
 
-        //         stage("History") {
-        //             steps {
-        //                 createOrUpdate("history", "")
-        //             }
-        //         }
+                stage("History") {
+                    steps {
+                        createOrUpdate("history", "")
+                    }
+                }
 
-        //         stage("Exchange") {
-        //             steps {
-        //                 dir("exchange") {
-        //                     sh """
-        //                         oc project $TEST_PROJECT
-        //                         ./mvnw clean package -DskipTests \
-        //                             -Dquarkus.openshift.name=${BRANCH_NAME}-exchange \
-        //                             -Dquarkus.kubernetes.deploy=true \
-        //                             -Dquarkus.openshift.expose=true \
-        //                             -Dquarkus.openshift.env.vars.HISTORY_SERVICE=${BRANCH_NAME}-history:8080 \
-        //                             -Dquarkus.openshift.env.vars.CURRENCY_SERVICE=${BRANCH_NAME}-currency:5000
-        //                     """
-        //                 }
-        //             }
-        //         }
+                stage("Exchange") {
+                    steps {
+                        dir("exchange") {
+                            sh """
+                                oc project $TEST_PROJECT
+                                ./mvnw clean package -DskipTests \
+                                    -Dquarkus.openshift.name=${BRANCH_NAME}-exchange \
+                                    -Dquarkus.kubernetes.deploy=true \
+                                    -Dquarkus.openshift.expose=true \
+                                    -Dquarkus.openshift.env.vars.HISTORY_SERVICE=${BRANCH_NAME}-history:8080 \
+                                    -Dquarkus.openshift.env.vars.CURRENCY_SERVICE=${BRANCH_NAME}-currency:5000
+                            """
+                        }
+                    }
+                }
 
-        //         stage("Frontend") {
-        //             steps {
-        //                 createOrUpdate(
-        //                     "frontend",
-        //                     "--build-env REACT_APP_GW_ENDPOINT=http://${BRANCH_NAME}-exchange-${TEST_PROJECT}.apps.na45-stage.dev.nextcle.com/"
-        //                 )
-        //             }
-        //         }
-        //     }
-        // }
+                stage("Frontend") {
+                    steps {
+                        createOrUpdate(
+                            "frontend",
+                            "--build-env REACT_APP_GW_ENDPOINT=http://${BRANCH_NAME}-exchange-${TEST_PROJECT}.apps.na45-stage.dev.nextcle.com/"
+                        )
+                    }
+                }
+            }
+        }
 
 
         stage("Functional Tests") {
