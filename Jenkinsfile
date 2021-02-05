@@ -1,3 +1,6 @@
+STAGE_PROJECT = "rht-jramirez-exchange-stage"
+PROD_PROJECT = "rht-jramirez-exchange-prod"
+
 pipeline{
     agent any
     stages {
@@ -50,7 +53,7 @@ pipeline{
         //         stage("Currency") {
         //             steps {
         //                 sh """
-        //                     oc start-build currency --follow --wait -n rht-jramirez-exchange-stage
+        //                     oc start-build currency --follow --wait -n $STAGE_PROJECT
         //                 """
         //             }
         //         }
@@ -58,7 +61,7 @@ pipeline{
         //         stage("History") {
         //             steps {
         //                 sh """
-        //                     oc start-build history --follow --wait -n rht-jramirez-exchange-stage
+        //                     oc start-build history --follow --wait -n $STAGE_PROJECT
         //                 """
         //             }
         //         }
@@ -66,7 +69,7 @@ pipeline{
         //         stage("News") {
         //             steps {
         //                 sh """
-        //                     oc start-build news --follow --wait -n rht-jramirez-exchange-stage
+        //                     oc start-build news --follow --wait -n $STAGE_PROJECT
         //                 """
         //             }
         //         }
@@ -75,7 +78,7 @@ pipeline{
         //             steps {
         //                 dir("exchange") {
         //                     sh """
-        //                         oc project rht-jramirez-exchange-stage
+        //                         oc project $STAGE_PROJECT
         //                         ./mvnw clean package -DskipTests -Dquarkus.kubernetes.deploy=true -Dquarkus.openshift.expose=true
         //                     """
         //                 }
@@ -85,7 +88,7 @@ pipeline{
         //         stage("Frontend") {
         //             steps {
         //                 sh """
-        //                     oc start-build frontend --follow --wait -n rht-jramirez-exchange-stage
+        //                     oc start-build frontend --follow --wait -n $STAGE_PROJECT
         //                 """
         //             }
         //         }
@@ -100,7 +103,7 @@ pipeline{
             }
 
             environment {
-                BASEURL = "http://exchange-rht-jramirez-exchange-stage.apps.na45-stage.dev.nextcle.com/"
+                CYPRESS_BASE_URL = "http://frontend-${STAGE_PROJECT}.apps.na45-stage.dev.nextcle.com/"
             }
 
             steps {

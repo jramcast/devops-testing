@@ -1,8 +1,6 @@
-const BASEURL = process.env.BASEURL || "http://localhost:3000";
-
 context("Given 👤 is in the home page", () => {
     beforeEach(() => {
-        cy.visit(BASEURL);
+        cy.visit("/");
     });
 
     context("When 👤 navigates to the Historical Data page", () => {

@@ -1,5 +1,7 @@
 {
     "integrationFolder": "cypress/functional",
     "viewportWidth": 1280,
-    "viewportHeight": 1024
+    "viewportHeight": 1024,
+    "baseUrl": "http://localhost:3000",
+    "defaultCommandTimeout": 10000
 }
