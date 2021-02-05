@@ -5,7 +5,9 @@ PROD_PROJECT = "rht-jramirez-exchange-prod"
 pipeline{
     agent any
 
-    failFast true
+    options {
+        parallelsAlwaysFailFast()
+    }
 
     stages {
         stage("Code analysis & Unit Test") {
