@@ -1,7 +1,7 @@
 TEST_PROJECT = "rht-jramirez-exchange-test"
 STAGE_PROJECT = "rht-jramirez-exchange-stage"
-PROD_PROJECT = "rht-jramirez-exchange-prod"
-MAIN_BRANCH = "experiments"
+// PROD_PROJECT = "rht-jramirez-exchange-prod"
+MAIN_BRANCH = "main"
 
 pipeline{
     agent any
@@ -49,7 +49,7 @@ pipeline{
             }
         }
 
-        stage("Service Level Integration Testing") {
+        stage("Service Level Integration Test") {
             parallel {
                 stage('History') {
                     agent {
