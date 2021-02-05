@@ -53,7 +53,7 @@ pipeline{
                     }
                     steps {
                         dir("frontend") {
-                            sh "npm ci"
+                            sh "npm ci --no-optional"
                             sh "npm run lint"
                             sh "npm test"
 
@@ -97,12 +97,6 @@ pipeline{
                     }
                 }
 
-                stage("News") {
-                    steps {
-                        createOrUpdate("news", "")
-                    }
-                }
-
                 stage("Exchange") {
                     steps {
                         dir("exchange") {
@@ -142,12 +136,6 @@ pipeline{
                 stage("History") {
                     steps {
                         createOrUpdate("history", "")
-                    }
-                }
-
-                stage("News") {
-                    steps {
-                        createOrUpdate("news", "")
                     }
                 }
 
