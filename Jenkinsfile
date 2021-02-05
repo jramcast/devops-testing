@@ -4,11 +4,11 @@ pipeline{
     stages {
 
         stage('Create feature environment') {
-
             steps {
-                def b =  scmVars.GIT_BRANCH
-
-                sh "echo $b"
+                script{
+                    def b =  scmVars.GIT_BRANCH
+                    sh "echo $b"
+                }
             }
 
         }
