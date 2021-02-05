@@ -109,23 +109,23 @@ pipeline{
             }
 
             parallel {
-                // stage("Currency") {
-                //     steps {
-                //         createOrUpdate("currency")
-                //     }
-                // }
+                stage("Currency") {
+                    steps {
+                        createOrUpdate("currency")
+                    }
+                }
 
-                // stage("History") {
-                //     steps {
-                //         createOrUpdate("history")
-                //     }
-                // }
+                stage("History") {
+                    steps {
+                        createOrUpdate("history")
+                    }
+                }
 
-                // stage("News") {
-                //     steps {
-                //         createOrUpdate("news")
-                //     }
-                // }
+                stage("News") {
+                    steps {
+                        createOrUpdate("news")
+                    }
+                }
 
                 stage("Exchange") {
                     steps {
@@ -141,11 +141,11 @@ pipeline{
                     }
                 }
 
-                // stage("Frontend") {
-                //     steps {
-                //         createOrUpdate("frontend")
-                //     }
-                // }
+                stage("Frontend") {
+                    steps {
+                        createOrUpdate("frontend")
+                    }
+                }
 
             }
         }
