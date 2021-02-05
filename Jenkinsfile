@@ -146,8 +146,8 @@ pipeline{
                                     -Dquarkus.openshift.name=${BRANCH_NAME}-exchange \
                                     -Dquarkus.kubernetes.deploy=true \
                                     -Dquarkus.openshift.expose=true \
-                                    -Dquarkus.openshift.env.vars.HISTORY_SERVICE=${BRANCH_NAME}-history:8080
-                                    -Dquarkus.openshift.env.vars.CURRENCY_SERVICE=${BRANCH_NAME}-currency:8080
+                                    -Dquarkus.openshift.env.vars.HISTORY_SERVICE=${BRANCH_NAME}-history:8080 \
+                                    -Dquarkus.openshift.env.vars.CURRENCY_SERVICE=${BRANCH_NAME}-currency:5000
                             """
                         }
                     }
