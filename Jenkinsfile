@@ -1,6 +1,7 @@
 TEST_PROJECT = "rht-jramirez-exchange-test"
 STAGE_PROJECT = "rht-jramirez-exchange-stage"
 PROD_PROJECT = "rht-jramirez-exchange-prod"
+MAIN_BRANCH = "experiments"
 
 pipeline{
     agent any
@@ -51,7 +52,7 @@ pipeline{
 
         stage("Deploy to Stage") {
 
-            when { branch 'experiments' }
+            when { branch MAIN_BRANCH }
 
             parallel {
                 stage("Currency") {
@@ -104,7 +105,7 @@ pipeline{
         stage("Deploy Branch to Test") {
 
             when {
-                expression { env.BRANCH_NAME != 'experiments' }
+                expression { env.BRANCH_NAME != MAIN_BRANCH }
             }
 
             parallel {
@@ -116,13 +117,13 @@ pipeline{
 
                 stage("History") {
                     steps {
-                        createOrUpdate("currency")
+                        createOrUpdate("history")
                     }
                 }
 
                 stage("News") {
                     steps {
-                        createOrUpdate("currency")
+                        createOrUpdate("news")
                     }
                 }
 
@@ -132,7 +133,7 @@ pipeline{
                             sh """
                                 oc project $TEST_PROJECT
                                 ./mvnw clean package -DskipTests \
-                                    -Dquarkus.kubernetes.name=exchange-$BRANCH-NAME \
+                                    -Dquarkus.kubernetes.name=exchange-${BRANCH-NAME} \
                                     -Dquarkus.kubernetes.deploy=true \
                                     -Dquarkus.openshift.expose=true
                             """
@@ -142,7 +143,7 @@ pipeline{
 
                 stage("Frontend") {
                     steps {
-                        createOrUpdate("currency")
+                        createOrUpdate("frontend")
                     }
                 }
 
@@ -160,7 +161,7 @@ pipeline{
                     script {
                         def url = "http://frontend-${STAGE_PROJECT}.apps.na45-stage.dev.nextcle.com/"
 
-                        if (env.BRANCH_NAME != "experiments") {
+                        if (env.BRANCH_NAME != MAIN_BRANCH) {
                             url = "http://frontend-${BRANCH_NAME}-${TEST_PROJECT}.apps.na45-stage.dev.nextcle.com/"
                         }
 
@@ -182,7 +183,7 @@ def createOrUpdate(service) {
     def name = "";
     def project = "";
 
-    if (env.BRANCH_NAME == "experiments") {
+    if (env.BRANCH_NAME == MAIN_BRANCH) {
         name = service
         project = STAGE_PROJECT
     } else {
