@@ -12,7 +12,6 @@ pipeline{
 
     stages {
         stage("Code analysis & Unit Test") {
-
             parallel {
                 stage("Currency") {
                     agent {
@@ -66,14 +65,16 @@ pipeline{
         }
 
         stage("Component Integration Testing") {
-            stage('History') {
-                agent {
-                    label "jenkins-agent-node-14"
-                }
-                steps {
-                    dir("history") {
-                        sh "npm ci"
-                        sh "npm run test:integration"
+            parallel {
+                stage('History') {
+                    agent {
+                        label "jenkins-agent-node-14"
+                    }
+                    steps {
+                        dir("history") {
+                            sh "npm ci"
+                            sh "npm run test:integration"
+                        }
                     }
                 }
             }
