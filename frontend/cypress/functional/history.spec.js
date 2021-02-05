@@ -13,12 +13,17 @@ context("Given 👤 is in the home page", () => {
         });
 
         it("the form has a non-empty selector for the SOURCE currency", () => {
-            cy.get("form select#source-input > option").should("have.length.gt", 1);
-
+            cy.get("form select#source-input > option").should(
+                "have.length.gt",
+                1,
+            );
         });
 
         it("the form has a non-empty selector for the TARGET currency", () => {
-            cy.get("form select#target-input > option").should("have.length.gt", 1)
+            cy.get("form select#target-input > option").should(
+                "have.length.gt",
+                1,
+            );
         });
 
         context("When 👤 clicks submit", () => {
@@ -30,7 +35,5 @@ context("Given 👤 is in the home page", () => {
                 cy.get("svg").should("contain", "Exchange Rate Graph");
             });
         });
-
     });
-
 });

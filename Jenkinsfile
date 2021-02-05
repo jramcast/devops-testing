@@ -11,44 +11,56 @@ pipeline{
     }
 
     stages {
-        // stage("Code analysis & Unit Test") {
+        stage("Code analysis & Unit Test") {
 
-        //     parallel {
-        //         stage("Currency") {
-        //             agent {
-        //                 label "jenkins-agent-python-3"
-        //             }
-        //             steps {
-        //                 dir("currency") {
-        //                     sh "pip3 install -r requirements.txt"
-        //                     sh "./scripts/lint"
-        //                     sh "./scripts/test"
-        //                 }
-        //             }
-        //         }
+            parallel {
+                stage("Currency") {
+                    agent {
+                        label "jenkins-agent-python-3"
+                    }
+                    steps {
+                        dir("currency") {
+                            sh "pip3 install -r requirements.txt"
+                            sh "./scripts/lint"
+                            sh "./scripts/test"
+                        }
+                    }
+                }
 
-        //         stage('History') {
-        //             agent {
-        //                 label "jenkins-agent-node-14"
-        //             }
-        //             steps {
-        //                 dir("history") {
-        //                     sh "npm ci"
-        //                     sh "npm run lint"
-        //                     sh "npm test"
-        //                 }
-        //             }
-        //         }
+                stage('History') {
+                    agent {
+                        label "jenkins-agent-node-14"
+                    }
+                    steps {
+                        dir("history") {
+                            sh "npm ci"
+                            sh "npm run lint"
+                            sh "npm run test:ci"
+                        }
+                    }
+                }
 
-        //         stage('Exchange') {
-        //             steps {
-        //                 dir("exchange") {
-        //                     sh "./mvnw clean verify"
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+                stage('Exchange') {
+                    steps {
+                        dir("exchange") {
+                            sh "./mvnw clean verify"
+                        }
+                    }
+                }
+
+                stage('Frontend') {
+                    steps {
+                        dir("frontend") {
+                            sh "npm ci"
+                            sh "npm run lint"
+                            sh "npm test"
+
+                            archiveArtifacts "coverage"
+                        }
+                    }
+                }
+            }
+        }
 
         stage("Deploy to Stage") {
 

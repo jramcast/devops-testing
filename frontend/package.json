@@ -29,8 +29,8 @@
         "test:ci": "CI=true yarn test:coverage",
         "test:functional": "cypress run",
         "test:functional:open": "cypress open",
-        "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
-        "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx .",
+        "lint": "eslint --ext .js,.jsx,.ts,.tsx src cypress/functional",
+        "lint:fix": "eslint --fix --ext .js,.jsx,.ts,.tsx src cypress/functional",
         "format": "prettier . --write"
     },
     "eslintConfig": {
