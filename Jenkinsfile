@@ -6,7 +6,7 @@ pipeline{
         stage('Create feature environment') {
 
             steps {
-                b =  scmVars.GIT_BRANCH
+                def b =  scmVars.GIT_BRANCH
 
                 sh "echo $b"
             }
