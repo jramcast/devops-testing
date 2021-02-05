@@ -10,7 +10,10 @@
     },
     "globals": {
         "test": false,
-        "expect": false
+        "expect": false,
+        "describe": false,
+        "afterAll": false,
+        "beforeAll": false
     },
     "rules": {
         "indent": [

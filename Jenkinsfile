@@ -65,6 +65,20 @@ pipeline{
             }
         }
 
+        stage("Component Integration Testing") {
+            stage('History') {
+                agent {
+                    label "jenkins-agent-node-14"
+                }
+                steps {
+                    dir("history") {
+                        sh "npm ci"
+                        sh "npm run test:integration"
+                    }
+                }
+            }
+        }
+
         stage("Deploy to Stage") {
 
             when { branch MAIN_BRANCH }
