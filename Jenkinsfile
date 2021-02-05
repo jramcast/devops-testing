@@ -57,19 +57,19 @@ pipeline{
             parallel {
                 stage("Currency") {
                     steps {
-                        createOrUpdate("currency")
+                        createOrUpdate("currency", "")
                     }
                 }
 
                 stage("History") {
                     steps {
-                        createOrUpdate("history")
+                        createOrUpdate("history", "")
                     }
                 }
 
                 stage("News") {
                     steps {
-                        createOrUpdate("news")
+                        createOrUpdate("news", "")
                     }
                 }
 
@@ -105,19 +105,19 @@ pipeline{
             parallel {
                 stage("Currency") {
                     steps {
-                        createOrUpdate("currency")
+                        createOrUpdate("currency", "")
                     }
                 }
 
                 stage("History") {
                     steps {
-                        createOrUpdate("history")
+                        createOrUpdate("history", "")
                     }
                 }
 
                 stage("News") {
                     steps {
-                        createOrUpdate("news")
+                        createOrUpdate("news", "")
                     }
                 }
 
@@ -176,11 +176,6 @@ pipeline{
 def createOrUpdate(service, args) {
     def name = "";
     def project = "";
-    def additionalArgs = "";
-
-    if (args != null) {
-        additionalArgs = args;
-    }
 
     if (env.BRANCH_NAME == MAIN_BRANCH) {
         name = service
@@ -198,7 +193,7 @@ def createOrUpdate(service, args) {
                 https://github.com/jramcast/devops-testing#${BRANCH_NAME} \
                 --context-dir=$service \
                 --strategy=docker \
-                $additionalArgs || true
+                $args || true
         """
         sh "oc expose svc/$name"
     } else {
