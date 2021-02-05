@@ -57,25 +57,19 @@ pipeline{
             parallel {
                 stage("Currency") {
                     steps {
-                        sh """
-                            oc start-build currency --follow --wait -n $STAGE_PROJECT
-                        """
+                        createOrUpdate("currency")
                     }
                 }
 
                 stage("History") {
                     steps {
-                        sh """
-                            oc start-build history --follow --wait -n $STAGE_PROJECT
-                        """
+                        createOrUpdate("history")
                     }
                 }
 
                 stage("News") {
                     steps {
-                        sh """
-                            oc start-build news --follow --wait -n $STAGE_PROJECT
-                        """
+                        createOrUpdate("news")
                     }
                 }
 
@@ -92,12 +86,9 @@ pipeline{
 
                 stage("Frontend") {
                     steps {
-                        sh """
-                            oc start-build frontend --follow --wait -n $STAGE_PROJECT
-                        """
+                        createOrUpdate("frontend")
                     }
                 }
-
             }
         }
 
@@ -133,7 +124,7 @@ pipeline{
                             sh """
                                 oc project $TEST_PROJECT
                                 ./mvnw clean package -DskipTests \
-                                    -Dquarkus.kubernetes.name=exchange-${BRANCH_NAME} \
+                                    -Dquarkus.kubernetes.name=${BRANCH_NAME}-exchange \
                                     -Dquarkus.kubernetes.deploy=true \
                                     -Dquarkus.openshift.expose=true
                             """
@@ -146,7 +137,6 @@ pipeline{
                         createOrUpdate("frontend")
                     }
                 }
-
             }
         }
 
@@ -159,17 +149,15 @@ pipeline{
             steps {
                 dir("frontend") {
                     script {
-                        def url = "http://frontend-${STAGE_PROJECT}.apps.na45-stage.dev.nextcle.com/"
-
-                        if (env.BRANCH_NAME != MAIN_BRANCH) {
-                            url = "http://frontend-${BRANCH_NAME}-${TEST_PROJECT}.apps.na45-stage.dev.nextcle.com/"
-                        }
+                        def url = getFrontendUrl()
 
                         sh "npm ci"
 
                         withEnv(["CYPRESS_BASE_URL=$url"]) {
                             sh "npm run test:functional"
                         }
+
+                        archiveArtifacts "cypress/screenshots"
                     }
 
                 }
@@ -187,7 +175,7 @@ def createOrUpdate(service) {
         name = service
         project = STAGE_PROJECT
     } else {
-        name = service + "-" + env.BRANCH_NAME
+        name = env.BRANCH_NAME + "-" + service
         project = TEST_PROJECT
     }
 
@@ -205,4 +193,14 @@ def createOrUpdate(service) {
     } else {
         sh "oc start-build $name --follow --wait -n $project"
     }
+}
+
+def getFrontendUrl() {
+    def url = "http://frontend-${STAGE_PROJECT}.apps.na45-stage.dev.nextcle.com/"
+
+    if (env.BRANCH_NAME != MAIN_BRANCH) {
+        url = "http://${BRANCH_NAME}-frontend-${TEST_PROJECT}.apps.na45-stage.dev.nextcle.com/"
+    }
+
+    return url;
 }
