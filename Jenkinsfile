@@ -213,8 +213,10 @@ def createOrUpdate(service, args) {
                 --strategy=docker \
                 $args || true
         """
-        sh "oc logs -f bc/$name"
         sh "oc expose svc/$name"
+        retry(3) {
+            sh "oc logs -f bc/$name"
+        }
     } else {
         sh "oc start-build $name --follow --wait -n $project"
     }
