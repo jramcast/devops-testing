@@ -1,12 +1,14 @@
+TEST_PROJECT = "rht-jramirez-exchange-test"
 STAGE_PROJECT = "rht-jramirez-exchange-stage"
 PROD_PROJECT = "rht-jramirez-exchange-prod"
 
 pipeline{
     agent any
+
+    failFast true
+
     stages {
         stage("Code analysis & Unit Test") {
-
-            failFast true
 
             parallel {
                 stage("Currency") {
@@ -46,8 +48,6 @@ pipeline{
         }
 
         stage("Deploy to Stage") {
-
-            failFast true
 
             when { branch 'experiments' }
 
@@ -98,13 +98,52 @@ pipeline{
             }
         }
 
-        stage('Create feature environment') {
+
+        stage("Deploy Branch to Test") {
+
             when {
-                expression { env.BRANCH_NAME != 'master' }
+                expression { env.BRANCH_NAME != 'experiments' }
             }
 
-            steps {
-                echo 'todo: create custom environment'
+            parallel {
+                stage("Currency") {
+                    steps {
+                        createOrUpdate("currency")
+                    }
+                }
+
+                stage("History") {
+                    steps {
+                        createOrUpdate("currency")
+                    }
+                }
+
+                stage("News") {
+                    steps {
+                        createOrUpdate("currency")
+                    }
+                }
+
+                stage("Exchange") {
+                    steps {
+                        dir("exchange") {
+                            sh """
+                                oc project $TEST_PROJECT
+                                ./mvnw clean package -DskipTests \
+                                    -Dquarkus.kubernetes.name=exchange-$BRANCH-NAME \
+                                    -Dquarkus.kubernetes.deploy=true \
+                                    -Dquarkus.openshift.expose=true
+                            """
+                        }
+                    }
+                }
+
+                stage("Frontend") {
+                    steps {
+                        createOrUpdate("currency")
+                    }
+                }
+
             }
         }
 
@@ -114,16 +153,52 @@ pipeline{
                 label "jenkins-agent-cypress"
             }
 
-            environment {
-                CYPRESS_BASE_URL = "http://frontend-${STAGE_PROJECT}.apps.na45-stage.dev.nextcle.com/"
-            }
-
             steps {
                 dir("frontend") {
-                    sh "npm ci"
-                    sh "npm run test:functional"
+                    script {
+                        def url = "http://frontend-${STAGE_PROJECT}.apps.na45-stage.dev.nextcle.com/"
+
+                        if (env.BRANCH_NAME != "experiments") {
+                            url = "http://frontend-${BRANCH_NAME}-${TEST_PROJECT}.apps.na45-stage.dev.nextcle.com/"
+                        }
+
+                        sh "npm ci"
+
+                        withEnv(["CYPRESS_BASE_URL=$url"]) {
+                            sh "npm run test:functional"
+                        }
+                    }
+
                 }
             }
         }
+    }
+}
+
+
+def createOrUpdate(service) {
+    def name = "";
+    def project = "";
+
+    if (env.BRANCH_NAME == "experiments") {
+        name = service
+        project = STAGE_PROJECT
+    } else {
+        name = service + "-" + env.BRANCH_NAME
+        project = TEST_PROJECT
+    }
+
+    def code = sh(script: "oc get deployment $name -n $project", returnStatus: true)
+
+    if (code != 0) {
+        sh """
+            oc new-app --name $name \
+                https://github.com/jramcast/devops-testing#${BRANCH_NAME} \
+                --context-dir=$service \
+                --strategy=docker
+        """
+        sh "oc expose svc/$name"
+    } else {
+        sh "oc start-build $name --follow --wait -n $project"
     }
 }

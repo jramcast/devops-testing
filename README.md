@@ -58,6 +58,24 @@ oc process -f jenkins/jenkins-agent-template.yml  -p NAME=jenkins-agent-cypress 
 ```
 
 
+## Deployments in test environment (branches)
+
+Project:
+
+```
+oc new-project rht-jramirez-exchange-test
+
+```
+
+Allow Jenkins to deploy to this project:
+
+```
+oc policy add-role-to-user edit system:serviceaccount:rht-jramirez-jenkins:jenkins -n rht-jramirez-exchange-test
+```
+
+
+
+
 ## Deployments in stage environment
 
 Project:
