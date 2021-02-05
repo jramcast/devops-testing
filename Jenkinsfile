@@ -49,6 +49,8 @@ pipeline{
 
             failFast true
 
+            when { branch 'experiments' }
+
             parallel {
                 stage("Currency") {
                     steps {
@@ -93,6 +95,16 @@ pipeline{
                     }
                 }
 
+            }
+        }
+
+        stage('Create feature environment') {
+            when {
+                expression { env.BRANCH_NAME != 'master' }
+            }
+
+            steps {
+                echo 'todo: create custom environment'
             }
         }
 
