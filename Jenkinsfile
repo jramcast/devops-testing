@@ -181,7 +181,7 @@ pipeline{
                             sh "npm run test:functional"
                         }
 
-                        archiveArtifacts "cypress/videos"
+                        archiveArtifacts "cypress/videos/*.mp4"
                     }
 
                 }
