@@ -22,12 +22,13 @@ public class ExchangeResource {
     @RestClient
     HistoryService historyService;
 
+    @Inject
+    CurrencyProcessor currencyProcessor;
+
     ObjectMapper mapper = new ObjectMapper();
 
     @POST
     @Path("/historicalData")
-    // TODO: validate whether currency Service serves the source/target currency
-    // something like new ObjectMapper().readTree(body).get("source")
     public List<Currency> getHistoricalData(String body) {
         return historyService.getCurrencyExchangeRates(body);
     }
@@ -36,18 +37,14 @@ public class ExchangeResource {
     @Path("/singleCurrency")
     public Currency getExchangeRate(String body) {
         List<Currency> currencies = historyService.getCurrencyExchangeRates(body);
-        Currency latestCurrency = currencies.get(0);
+        String target = "";
         try {
-            String target = mapper.readTree(body).get("target").asText();
-            if(target.equals("USD")) {
-                latestCurrency.setSymbol("$");
-            } else {
-                latestCurrency.setSymbol("€");
-            }
+            target = mapper.readTree(body).get("target").asText();
         } catch (Exception e) {
             e.printStackTrace();
+            target = "EUR";
         }
-        return latestCurrency;
+        return currencyProcessor.getFirst(currencies, target);
     }
 
 }

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node app",
     "test": "jest tests/unit/**/*.test.js --watchAll",
-    "test:ci": "jest tests/unit/**/*.test.js",
+    "test:ci": "jest tests/unit/**/*.test.js --collectCoverage --collectCoverageFrom=source/**/*.js",
     "test:integration": "PORT=8762 start-server-and-test start 8762 jest:integration",
     "jest:integration": "jest tests/integration",
     "lint": "eslint ."

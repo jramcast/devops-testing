@@ -2,6 +2,9 @@ package com.redhat.restclient;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+
+@ApplicationScoped
 public class CurrencyProcessor {
 
     public Currency getFirst(List<Currency> currencies, String target) {
