@@ -15,19 +15,19 @@ This demo uses Jenkins on OpenShift, which needs Jenkins Agents to run specific 
 To create Node.js agent:
 
 ```
-oc process -f jenkins/jenkins-agent-template.yml  -p NAME=jenkins-agent-node-14 -p SOURCE_CONTEXT_DIR=jenkins/node14 SOURCE_REPOSITORY_REF=experiments | oc apply -f -
+oc process -f jenkins/jenkins-agent-template.yml  -p NAME=jenkins-agent-node-14 -p SOURCE_CONTEXT_DIR=jenkins/node14 | oc apply -f -
 ```
 
 Python agent
 
 ```
-oc process -f jenkins/jenkins-agent-template.yml  -p NAME=jenkins-agent-python-3 -p SOURCE_CONTEXT_DIR=jenkins/python3 SOURCE_REPOSITORY_REF=experiments | oc apply -f -
+oc process -f jenkins/jenkins-agent-template.yml  -p NAME=jenkins-agent-python-3 -p SOURCE_CONTEXT_DIR=jenkins/python3 | oc apply -f -
 ```
 
 Cypress
 
 ```
-oc process -f jenkins/jenkins-agent-template.yml  -p NAME=jenkins-agent-cypress -p SOURCE_CONTEXT_DIR=jenkins/cypress SOURCE_REPOSITORY_REF=experiments | oc apply -f -
+oc process -f jenkins/jenkins-agent-template.yml  -p NAME=jenkins-agent-cypress -p SOURCE_CONTEXT_DIR=jenkins/cypress | oc apply -f -
 ```
 
 
@@ -68,7 +68,7 @@ Currency
 
 ```
 oc new-app --name currency \
-https://github.com/jramcast/devops-testing#experiments \
+https://github.com/jramcast/devops-testing \
 --context-dir=currency \
 --strategy=docker
 
@@ -80,7 +80,7 @@ History
 
 ```
 oc new-app --name history \
-https://github.com/jramcast/devops-testing#experiments \
+https://github.com/jramcast/devops-testing \
 --context-dir=history \
 --strategy=docker
 
@@ -92,7 +92,7 @@ Exchange
 
 ```
 oc new-app --name exchange \
-https://github.com/jramcast/devops-testing#experiments \
+https://github.com/jramcast/devops-testing \
 --context-dir=exchange
 
 oc expose svc/exchange
@@ -103,7 +103,7 @@ News
 
 ```
 oc new-app --name news \
-https://github.com/jramcast/devops-testing#experiments \
+https://github.com/jramcast/devops-testing \
 --context-dir=news \
 --strategy=docker
 
@@ -114,7 +114,7 @@ Front
 
 ```
 oc new-app --name frontend \
-https://github.com/jramcast/devops-testing#experiments \
+https://github.com/jramcast/devops-testing \
 --context-dir=frontend \
 --strategy=docker
 

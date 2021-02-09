@@ -24,7 +24,7 @@ describe("RatesService", () => {
         expect(invalidScenario).toThrow(/Unknown currency conversion/i);
     });
 
-    test("generate dates", () => {
+    test("returns a list of currency exchange rates with dates", () => {
         const repository = {
             load: () => [{ value: 1 }, { value: 2 }, { value: 3 } ]
         };
