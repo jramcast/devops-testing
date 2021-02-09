@@ -1,4 +1,4 @@
-FROM registry.redhat.io/openshift4/ose-jenkins-agent-base
+FROM registry.redhat.io/openshift4/ose-jenkins-agent-base:v4.6
 
 RUN python -m pip install --user -U pip && \
     chown root:root /home/jenkins -R && \
