@@ -56,6 +56,9 @@ oc process -f jenkins/jenkins-agent-template.yml  -p NAME=jenkins-agent-cypress 
 
 ## Deployments in a test environment (for branches)
 
+This example uses a test environment to make deployments specific to branches.
+Each branch generates will generate its own deployments 
+
 Create the test project:
 
 ```
