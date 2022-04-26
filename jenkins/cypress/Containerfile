@@ -2,11 +2,11 @@ FROM registry.redhat.io/openshift4/ose-jenkins-agent-base:v4.10
 
 # Add repos
 COPY CentOS.repo /etc/yum.repos.d/
-RUN yum install -y --setopt=tsflags=nodocs gcc-c++ make
+RUN yum install -y --disableplugin=subscription-manager --setopt=tsflags=nodocs gcc-c++ make
 RUN curl -sL https://rpm.nodesource.com/setup_12.x | bash -
 
 # Reference: https://github.com/cypress-io/cypress-docker-images/blob/master/base/centos7-12.4.0/Dockerfile
-RUN yum $DISABLE_REPOS install -y --disableplugin=subscription-manager --setopt=tsflags=nodocs --disablerepo='rhel-*' \
+RUN yum $DISABLE_REPOS install -y --disableplugin=subscription-manager --setopt=tsflags=nodocs \
         nodejs xorg-x11-server-Xvfb gtk2-devel gtk3-devel libnotify-devel GConf2 nss libXScrnSaver alsa-lib && \
     yum clean all -y && \
     rm -rf /var/cache/yum && \
