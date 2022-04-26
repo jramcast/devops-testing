@@ -110,7 +110,7 @@ pipeline{
                     steps {
                         createOrUpdate(
                             "frontend",
-                            "--build-env REACT_APP_GW_ENDPOINT=http://exchange-${STAGE_PROJECT}.apps.na45-stage.dev.nextcle.com/"
+                            "--build-env REACT_APP_GW_ENDPOINT=http://exchange-${STAGE_PROJECT}.apps.na410-stage.dev.nextcle.com/"
                         )
                     }
                 }
@@ -157,7 +157,7 @@ pipeline{
                     steps {
                         createOrUpdate(
                             "frontend",
-                            "--build-env REACT_APP_GW_ENDPOINT=http://${BRANCH_NAME}-exchange-${TEST_PROJECT}.apps.na45-stage.dev.nextcle.com/"
+                            "--build-env REACT_APP_GW_ENDPOINT=http://${BRANCH_NAME}-exchange-${TEST_PROJECT}.apps.na410-stage.dev.nextcle.com/"
                         )
                     }
                 }
@@ -223,10 +223,10 @@ def createOrUpdate(service, args) {
 }
 
 def getFrontendUrl() {
-    def url = "http://frontend-${STAGE_PROJECT}.apps.na45-stage.dev.nextcle.com/"
+    def url = "http://frontend-${STAGE_PROJECT}.apps.na410-stage.dev.nextcle.com/"
 
     if (env.BRANCH_NAME != MAIN_BRANCH) {
-        url = "http://${BRANCH_NAME}-frontend-${TEST_PROJECT}.apps.na45-stage.dev.nextcle.com/"
+        url = "http://${BRANCH_NAME}-frontend-${TEST_PROJECT}.apps.na410-stage.dev.nextcle.com/"
     }
 
     return url;
