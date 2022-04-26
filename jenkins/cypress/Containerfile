@@ -1,4 +1,4 @@
-FROM registry.redhat.io/openshift4/ose-jenkins-agent-base:v4.6
+FROM registry.redhat.io/openshift4/ose-jenkins-agent-base:v4.10
 
 # Add repos
 COPY CentOS.repo /etc/yum.repos.d/
