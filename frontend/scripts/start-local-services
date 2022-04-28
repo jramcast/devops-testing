@@ -11,6 +11,4 @@ else
     COMPOSE="docker-compose"
 fi
 
-COMPOSE="docker-compose"
-
 $COMPOSE -f local-services.yml up

@@ -22,10 +22,3 @@ services:
       dockerfile: Containerfile
     ports:
     - "8082:8080"
-  news:
-    build:
-      context: ../../news
-      dockerfile: Containerfile
-    ports:
-    - "8083:5000"
-
