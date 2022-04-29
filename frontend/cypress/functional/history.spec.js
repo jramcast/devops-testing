@@ -37,3 +37,4 @@ context("Given 👤 is in the home page", () => {
         });
     });
 });
+
