@@ -1,3 +1,6 @@
+/**
+ * This service returns historical exchange rates
+ */
 module.exports = class RatesService {
 
     constructor(repository) {
@@ -7,17 +10,14 @@ module.exports = class RatesService {
     loadRatesHistory(src, target) {
         const data =  this.repository.load(src + "_TO_" + target);
 
+        // Each data point in "data" follows this format:
+        //  { "value": exchangeRateValue }
+
         if (data === null) {
             throw new Error("Unknown currency conversion");
         }
 
-        return data.map((element, i) => {
-            const elementWithDate = {...element};
-            var date = new Date();
-            date.setDate(date.getDate() - i);
-            elementWithDate["date"] = date;
-            return elementWithDate;
-        });
+        return data.map(rate => ({ date: new Date() , ...rate }));
     }
 
 };
