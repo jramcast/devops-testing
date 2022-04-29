@@ -1,3 +1,6 @@
+/**
+ * This service returns historical exchange rates
+ */
 module.exports = class RatesService {
 
     constructor(repository) {
