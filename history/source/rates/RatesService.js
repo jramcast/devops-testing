@@ -17,10 +17,7 @@ module.exports = class RatesService {
             throw new Error("Unknown currency conversion");
         }
 
-        // TODO: return data points
-        //
-        // Each returned data point should include a date, following this syntax:
-        //  {"value": exchangeRateValue, "date": instanceOfDate }
+        return data.map(rate => ({ date: new Date() , ...rate }));
     }
 
 };
